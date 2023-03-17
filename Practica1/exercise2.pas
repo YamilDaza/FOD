@@ -16,7 +16,7 @@ type
       nro:integer;
    begin
       write('- Enter a number: '); readln(nro);
-      while(nro <> 30000)do begin
+      while(nro <> 3000)do begin
          write(arcLogico, nro);
          write('- Enter a number: '); readln(nro);
       end;
@@ -30,11 +30,10 @@ type
       sumOfNumber:integer;
       total:integer;
    begin
-      writeln('Entre');
-      total:= fileSize(arcLogico);
-      sumOfNumber:= 0;
-      
       reset(arcLogico);
+      
+      sumOfNumber:= 0;//El total de la suma de numero para el promedio
+      total:= fileSize(arcLogico); //La cantidad total de numeros que tiene el archivo para sacar el promedio
       while(not EOF(arcLogico))do begin
          read(arcLogico, nro);
          sumOfNumber:= sumOfNumber + nro;
@@ -42,7 +41,7 @@ type
             amountOfNumber:= amountOfNumber + 1;
       end;
       close(arcLogico);
-      average:= total / sumOfNumber;
+      average:= sumOfNumber / total;
    end;
 
 
@@ -64,6 +63,6 @@ begin
 
    //Informamos:
    writeln('The number of numbers greater than 100 is: ',amountOfNumber);
-   writeln('The average of numbers is: ',average:2:2); 
+   writeln('The average of numbers is: ',average:3:2); 
 
 end.
