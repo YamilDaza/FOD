@@ -44,6 +44,22 @@ type
       average:= sumOfNumber / total;
    end;
 
+   //Process 3
+   procedure informNumber(var arcLogico:archive);
+   var
+      nro:integer;
+      pos:integer;
+   begin
+      pos:=1;
+      reset(arcLogico);
+      while(not EOF(arcLogico))do begin
+         read(arcLogico, nro);
+         writeln('Nro ',pos,': ',nro);
+         pos:= pos + 1;
+      end;
+      close(arcLogico);
+   end;
+
 
 var
    arcLogico: archive;
@@ -64,5 +80,8 @@ begin
    //Informamos:
    writeln('The number of numbers greater than 100 is: ',amountOfNumber);
    writeln('The average of numbers is: ',average:3:2); 
+
+   writeln('List of numbers: ');
+   informNumber(arcLogico); //Process 3
 
 end.
