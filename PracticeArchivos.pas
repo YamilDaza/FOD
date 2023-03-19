@@ -37,7 +37,7 @@ begin
    assign(arcLogico, arcFisico);
    rewrite(arcLogico);
 
-   write('New Enter numbers: '); 
+   write('Now Enter numbers: '); 
    write('Nro -> '); readln(nro);
    while(nro <> 0)do begin
       write(arcLogico, nro);
@@ -46,7 +46,28 @@ begin
    close(arcLogico);
 
    writeln();  
-   writeln('New reading the numbers: ');  
+   writeln('Now reading the numbers: ');  
+   reset(arcLogico);
+   while(not EOF(arcLogico))do begin
+      read(arcLogico, nro);
+      writeln('Nro ',pos,' -> ',nro);
+      pos:=pos + 1;
+   end;
+   close(arcLogico);
+
+
+   writeln('Modifying the numbers....');
+   reset(arcLogico);
+   while(not EOF(arcLogico))do begin
+      read(arcLogico, nro);
+      nro:= nro + 2;
+      seek(arcLogico, filepos(arcLogico) - 1);
+      write(arcLogico, nro);
+   end;
+   close(arcLogico);
+
+   writeln();  
+   writeln('Now reading the numbers: ');  
    reset(arcLogico);
    while(not EOF(arcLogico))do begin
       read(arcLogico, nro);
