@@ -9,7 +9,7 @@ NOTA: El nombre del archivo a crear o utilizar debe ser proporcionado por el usu
 program exercise3;
 Uses sysutils;
 const 
-   FIN = 'fin';
+   FIN = 'fin'; //Corte de control de la carga de empleados en el archivo.
 type
    empleados = record
       nroEmpleado: integer;
@@ -19,16 +19,24 @@ type
       dni: integer;
    end;
 
-   archivo: file of empleados;
+   archivo = file of empleados;
 
    //Process 1
-   procedure presentarMenuOne();
+   procedure menuDeOpciones1();
    begin
-      writeln(' ========= Bienvenido al sistema ==========');
       writeln(' ......... Menu de opciones ..........');
       writeln(' A- Crear un archivo de empleados');
       writeln(' B- Abrir un archivo existente');
       writeln(' C- Finalizar');
+   end;
+
+   //Process 
+   procedure menuDeOpciones2();
+   begin
+      writeln(' ......... Menu de opciones B: ..........');
+      writeln(' 1- Buscar empleado con nombre o apellido determinado');
+      writeln(' 2- Mostrar todos los empleados');
+      writeln(' 3- Empleados proximos a jubilarse.');
    end;
 
    //Process 2.A.A
@@ -65,33 +73,140 @@ type
          crearEmpleado(emp); 
       end;
       close(arcLogico);
+
+      if(fileExists(arcFisico))then begin
+         writeln('***************************************');
+         writeln('***    ARCHIVO CREADO CON EXITO    ****');
+         writeln('***************************************');
+      end
+      else
+         writeln(' xxxxxx    ARCHIVO NO CREADO    xxxxxxx ');
+   end;
+
+   //Function 1
+   function estaEmpleado(emp: empleados; dato:string):boolean;
+   begin
+      estaEmpleado:= ((dato = emp.apellido) OR (dato = emp.nombre));
+   end;
+
+   //Procerss 2.1.1
+   procedure informarEmpleado(emp: empleados);
+   begin
+      writeln('- Nro de empleado -> ',emp.nroEmpleado);
+      writeln('- Apellido -> ',emp.apellido);
+      writeln('- Nombre -> ',emp.nombre);
+      writeln('- Edad -> ',emp.edad);
+      writeln('- DNI -> ',emp.dni);
+      writeln();
+   end;
+
+   //Process 2.1
+   procedure buscarEmpleado(var arcLogico: archivo);
+   var
+      emp: empleados;
+      dato: string;
+      encontre: boolean;
+   begin
+      write('Ingrese el nombre o apellido del empleado: '); readln(dato);
+      encontre:= false;
+      reset(arcLogico); //Abrimos el archivo
+      while((not EOF(arcLogico)) AND (not encontre))do begin
+         read(arcLogico, emp);
+         if(estaEmpleado(emp, dato))then begin//function 1
+            writeln(' ***** Empleado Encontrado ***** ');
+            informarEmpleado(emp); //Process 2.1.1
+            encontre:= true;
+         end;
+      end;
+      close(arcLogico);
+      if(not encontre)then
+         writeln(' ***** EMPLEADO NO ENCONTRADO ****** ');
+   end;
+
+   //Process 2.2
+   procedure listarEmpleados(var arcLogico: archivo);
+   var
+      emp: empleados;
+      pos: integer;
+   begin
+      pos:= 1;
+      reset(arcLogico);
+      while(not EOF(arcLogico))do begin
+         read(arcLogico, emp);
+         writeln('******* Empleado nro ',pos, ' ********');
+         informarEmpleado(emp);
+         pos:= pos + 1;
+      end;
+      close(arcLogico);
+   end;
+
+   //Process 2.3
+   procedure empleadosPorJubilarse(var arcLogico: archivo);
+   var
+      emp: empleados;
+      pos: integer;
+   begin
+      pos:= 1;
+      writeln(' ****** Empleados por jubilarse ***** ');
+      reset(arcLogico);
+      while(not EOF(arcLogico))do begin
+         read(arcLogico, emp);
+         if(emp.edad > 70)then begin
+            writeln('- Empleado ',pos);
+            informarEmpleado(emp);
+         end;
+      end;
+      close(arcLogico);
+      if(pos = 1)then
+         writeln('- Cantidad de empleados proximos a jubilarse: ',0)
+      else
+         writeln('- Cantidad de empleados proximos a jubilarse: ', pos);
+   end;
+
+   //Process 2.B
+   procedure procesoOpciones2(var arcLogico: archivo; var arcFisico: string);
+   var
+      opcion: integer;
+   begin
+      write('Opcion: '); readln(opcion);
+      case opcion of
+         1 : buscarEmpleado(arcLogico); //Process 2.1
+         2 : listarEmpleados(arcLogico); //Process 2.2
+         3 : empleadosPorJubilarse(arcLogico); //Process 2.3
+      end;
    end;
 
    //Process 2
-   procedure evaluarOpcion(var arcLogico: archivo; var arcFisico: string);
+   procedure procesoOpciones1(var arcLogico: archivo; var arcFisico: string);
    var
       opcion: char;
    begin
-      write('Opcion: '); readln();
-      if(opcion = 'A')then
+      write('Opcion: '); readln(opcion);
+      if(opcion = 'C')then 
+         writeln('.... Fin del proceso, vuelve pronto ....')
+      else if(opcion = 'A')then begin
          crearArchivo(arcLogico, arcFisico); //Process 2.A
-         else 
-            if((opcion = 'B') AND (fileExists(arcFisico)))then
-               presentarMenuTwo();
-            else
-               evaluarOpcion(arcLogico, arcFisico);
-      else
-         writeln('..... Hasta pronto ......')
-      end;
-
+         menuDeOpciones1(); //Process 1
+         procesoOpciones1(arcLogico, arcFisico); //Process 2
+      end
+      else if((opcion = 'B') AND (fileExists(arcFisico)))then begin
+               menuDeOpciones2(); //Process 1.A
+               procesoOpciones2(arcLogico, arcFisico); //Process 2.B
+            end
+            else begin
+               writeln(' ALERTA: Primero debes crear un archivo para poder abrirlo. ');
+               procesoOpciones1(arcLogico, arcFisico); //Process 2
+               menuDeOpciones1(); //Process 1
+            end;
    end;
 
 var
    arcLogico: archivo;
    arcFisico: string;
 begin
-   presentarMenuOne(); //Process 1
-   evaluarOpcion(arcLogico, arcFisico); //Process 2
-end;
+   writeln(' ========= Bienvenido al sistema ==========');
+   menuDeOpciones1(); //Process 1
+   procesoOpciones1(arcLogico, arcFisico); //Process 2
+end.
 
 
