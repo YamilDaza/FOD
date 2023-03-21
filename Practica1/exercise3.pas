@@ -193,7 +193,7 @@ type
                menuDeOpciones2(); //Process 1.A
                procesoOpciones2(arcLogico, arcFisico); //Process 2.B
             end
-            else begin
+            else begin  
                writeln(' ALERTA: Primero debes crear un archivo para poder abrirlo. ');
                procesoOpciones1(arcLogico, arcFisico); //Process 2
                menuDeOpciones1(); //Process 1
