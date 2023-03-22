@@ -28,6 +28,7 @@ type
       writeln(' A- Crear un archivo de empleados');
       writeln(' B- Abrir un archivo existente');
       writeln(' C- Finalizar');
+      writeln();
    end;
 
    //Process 
@@ -37,6 +38,8 @@ type
       writeln(' 1- Buscar empleado con nombre o apellido determinado');
       writeln(' 2- Mostrar todos los empleados');
       writeln(' 3- Empleados proximos a jubilarse.');
+      writeln(' 4- Agregar uno o mas empleados por teclado.');
+      writeln();
    end;
 
    //Process 2.A.A
@@ -163,6 +166,27 @@ type
          writeln('- Cantidad de empleados proximos a jubilarse: ', pos);
    end;
 
+   //Process 2.4
+   procedure agregarEmpleados(var arcLogico: archivo);
+   var
+      emp:empleados;
+      seguir:boolean;
+      opcion:char;
+   begin
+      seguir:=true;
+      writeln('ENTRE!!!!!!!');
+      reset(arcLogico);
+      while(seguir)do begin
+         crearEmpleado(emp);
+         write(arcLogico, emp);
+         write('**** Desea agregar otro empleado y/n ? ****'); readln(opcion);
+         if(opcion = 'n')then begin
+            seguir:=false;
+            writeln('.... HEMOS TERMINADO DE AGREGAR ....');
+         end;
+      end;    
+   end;
+
    //Process 2.B
    procedure procesoOpciones2(var arcLogico: archivo; var arcFisico: string);
    var
@@ -173,6 +197,7 @@ type
          1 : buscarEmpleado(arcLogico); //Process 2.1
          2 : listarEmpleados(arcLogico); //Process 2.2
          3 : empleadosPorJubilarse(arcLogico); //Process 2.3
+         4 : agregarEmpleados(arcLogico); //Process 2.4
       end;
    end;
 
