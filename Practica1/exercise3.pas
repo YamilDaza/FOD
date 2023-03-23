@@ -176,6 +176,7 @@ type
       seguir:=true;
       writeln('ENTRE!!!!!!!');
       reset(arcLogico);
+      seek(arcLogico, filesize(arcLogico)); //Posicionamos el puntero del archivo en la ultima posicion
       while(seguir)do begin
          crearEmpleado(emp);
          write(arcLogico, emp);
