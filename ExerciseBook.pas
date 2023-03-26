@@ -56,17 +56,15 @@ type
       end;
 
    var
-      amountProducts: integer;
       pos:integer;
       p:productos;
    begin
-      amountProducts:= filesize(arcLogico);
       pos:= 1;
       reset(arcLogico);
       
-      writeln('============  The amount of products is ',amountProducts,'  ============');     
+      writeln('============  The amount of products is ',FileSize(arcLogico),'  ============');     
       while(not EOF(arcLogico))do begin
-         writeln('Products nro ',pos,':');
+         writeln('* Products nro ',pos,':');
          read(arcLogico, p);
          showProduct(p); //Process 3.A
          writeln();
