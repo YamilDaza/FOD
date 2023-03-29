@@ -1,0 +1,28 @@
+------- Voto nro 1 ---------
+Codigo Provincia -> 20
+Codigo Localidad -> 20
+Nro de Mesa -> 2
+Cantidad de Votos -> 200
+Descripcion ->  AAAA
+
+------- Voto nro 2 ---------
+Codigo Provincia -> 50
+Codigo Localidad -> 50
+Nro de Mesa -> 5
+Cantidad de Votos -> 50
+Descripcion ->  BBBB
+
+------- Voto nro 3 ---------
+Codigo Provincia -> 80
+Codigo Localidad -> 80
+Nro de Mesa -> 8
+Cantidad de Votos -> 80
+Descripcion ->  CCCC
+
+------- Voto nro 4 ---------
+Codigo Provincia -> 10
+Codigo Localidad -> 10
+Nro de Mesa -> 1
+Cantidad de Votos -> 100
+Descripcion ->  DDDD
+
