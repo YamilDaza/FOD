@@ -1,0 +1,20 @@
+EMPLEADO NRO 1
+ - Nro de empleado: 10
+ - Nombre: YAMIL
+ - Edad: 24
+
+EMPLEADO NRO 1
+ - Nro de empleado: 25
+ - Nombre: BELEN
+ - Edad: 24
+
+EMPLEADO NRO 1
+ - Nro de empleado: 12
+ - Nombre: JUAN
+ - Edad: 55
+
+EMPLEADO NRO 1
+ - Nro de empleado: 40
+ - Nombre: LUIS
+ - Edad: 37
+
