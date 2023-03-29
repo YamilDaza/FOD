@@ -1,0 +1,8 @@
+codigoCelular, nombre, descripcion, marca, precio, stock minimo, stock disponible
+012 A10 AAA Samsung 4200 10 12 
+010 S10 BBB Samsung 3200 10 5
+015 Mt7 CCC Motorola 2800 10 7
+018 Lu1 DDD LG 1900 5 2
+014 G20 EEE Nokia 1200 5 4
+
+
