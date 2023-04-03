@@ -135,6 +135,56 @@ type
       close(celularesLogico); close(texto);
    end;
 
+   //PROCESO 6
+   procedure agregarCelulares(var celularesLogico: archivoCelulares);
+   var
+      c:celulares;
+   begin
+      reset(celularesLogico); //Abrimos el archivo binario de celulares
+      seek(celularesLogico, filesize(celularesLogico)); //Posicionamos el puntero a la ultima posicion
+   
+      writeln('Cargue hasta ingresar un codigo de celular igual a 0.');   
+      leerCelular(c);
+      while(c.codCelular <> 0)do begin
+         write(celularesLogico, c);
+         leerCelular(c);
+      end;
+   end;
+
+   //PROCESO 7
+   procedure buscarYModificar(var celularesLogico: archivoCelulares);
+   var
+      c:celulares;
+      encontre: boolean;
+      nombreCelular:string[20];
+   begin
+      encontre:=false;
+      reset(celularesLogico);
+      writeln();
+      write('Ingrese el nombre del celular a modificar el stock: '); readln(nombreCelular);
+
+      while((not EOF(celularesLogico)) AND (not encontre))do begin
+         read(celularesLogico, c);
+         if(nombreCelular = c.nombre)then begin
+            writeln('Celular encontrado y modificado correctamente...');
+            encontre:=true;
+            seek(celularesLogico, filepos(celularesLogico) - 1);
+            c.stockActual:= c.stockActual + 10;
+            write(celularesLogico, c);
+         end
+         else
+            writeln('Celular no encontrado...');
+      end;
+   end;
+
+   //PROCESO 8
+   procedure pasarSinStock(var celularesLogico: archivoCelulares);
+   begin
+      
+   end;
+
+// ----------------
+
 var
    celularesLogico: archivoCelulares;
    celularesFisico: string;
@@ -146,4 +196,7 @@ begin
    listar1(celularesLogico); //PROCESO 3
    listar2(celularesLogico); //PROCESO 4
    pasarDatosATexto(celularesLogico); //PROCESO 5
+   agregarCelulares(celularesLogico); //PROCESO 6
+   buscarYModificar(celularesLogico); //PROCESO 7
+   pasarSinStock(celularesLogico); //PROCESO 8
 end.
