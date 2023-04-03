@@ -179,8 +179,39 @@ type
 
    //PROCESO 8
    procedure pasarSinStock(var celularesLogico: archivoCelulares);
+      procedure pasarATexto(var celularesLogico:archivoCelulares; var texto:Text);
+      var
+         pos:integer;
+         c:celulares;
+      begin
+         pos:=0;
+         while(not EOF(celularesLogico))do begin
+            pos:=pos + 1;
+            read(celularesLogico,c);
+            writeln(texto, ' --- Registro nro ',pos, ' --- ');
+            writeln(texto, ' Codigo de celular -> ',c.codCelular);
+            writeln(texto, ' Nombre -> ',c.nombre);
+            writeln(texto, ' Descripcion -> ',c.descripcion);
+            writeln(texto, ' Precio -> ',c.precio);
+            writeln(texto, ' Marca -> ',c.marca);
+            writeln(texto, ' Stock Actual -> ',c.stockActual);
+            writeln(texto, ' Stock Minimo -> ',c.stockMinimo);
+         end;
+         close(celularesLogico); close(texto);
+      end;
+   var
+      texto: Text;
+      textoFisico: string[40];
    begin
-      
+      if(alMenosHayUno(celularesLogico))then begin
+         reset(celularesLogico);
+         write('Ingrese el PATH del archivo de texto: '); readln(textoFisico);
+         assign(texto,textoFisico);
+         rewrite(texto);
+         pasarATexto(celularesLogico, texto);
+      end
+      else
+         writeln('No es posible crear el archivo de texto porque no hay ningun dispositivo con stock igual a 0');
    end;
 
 // ----------------
