@@ -35,12 +35,10 @@ type
       rewrite(celularesLogico); //Creamos el archivo binario nuevo
 
       while(not EOF(textoLogico))do begin
-         writeln('LLEGUEEEEEE');
-         readln(textoLogico, c.codCelular, c.nombre);
-         readln(textoLogico, c.precio, c.descripcion);
-         readln(textoLogico, c.stockActual, c.stockMinimo, c.marca);
+         read(textoLogico, c.codCelular, c.nombre);
+         read(textoLogico, c.precio, c.descripcion);
+         read(textoLogico, c.stockActual, c.stockMinimo, c.marca);
          write(celularesLogico, c);
-         writeln('SALIIIII');
       end;
 
       close(celularesLogico); 
@@ -50,7 +48,7 @@ type
    end;
 
    //PROCESO LEER CELULAR
-   procedure leerCelular(c : celulares);
+   procedure leerCelular(var c : celulares);
    begin
          writeln('Codigo de celular: ',c.codCelular);
          writeln('Nombre: ',c.nombre);
@@ -95,7 +93,7 @@ type
       write('Ingrese la descripcion del celular que desea buscar: '); readln(buscador);
       while(not EOF(celularesLogico))do begin
          read(celularesLogico, c);
-         if(buscador = c.descripcion)then begin
+         if(c.descripcion = buscador)then begin
             writeln('ENTREEE');
             leerCelular(c);
             aux:= aux + 1;
@@ -178,7 +176,7 @@ type
    end;
 
    //PROCESO 8
-   procedure pasarSinStock(var celularesLogico: archivoCelulares);
+   (* procedure pasarSinStock(var celularesLogico: archivoCelulares);
       procedure pasarATexto(var celularesLogico:archivoCelulares; var texto:Text);
       var
          pos:integer;
@@ -212,7 +210,7 @@ type
       end
       else
          writeln('No es posible crear el archivo de texto porque no hay ningun dispositivo con stock igual a 0');
-   end;
+   end; *)
 
 // ----------------
 
@@ -227,7 +225,7 @@ begin
    listar1(celularesLogico); //PROCESO 3
    listar2(celularesLogico); //PROCESO 4
    pasarDatosATexto(celularesLogico); //PROCESO 5
-   agregarCelulares(celularesLogico); //PROCESO 6
-   buscarYModificar(celularesLogico); //PROCESO 7
-   pasarSinStock(celularesLogico); //PROCESO 8
+   // agregarCelulares(celularesLogico); //PROCESO 6
+   // buscarYModificar(celularesLogico); //PROCESO 7
+   // pasarSinStock(celularesLogico); //PROCESO 8
 end.

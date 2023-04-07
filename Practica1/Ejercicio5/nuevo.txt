@@ -1,0 +1,48 @@
+ --- Registro nro 1 --- 
+ Codigo de celular -> 12
+ Nombre ->  A10 
+ Descripcion ->  AAA 
+ Precio -> 4200
+ Marca ->  Samsung 
+ Stock Actual -> 10
+ Stock Minimo -> 12
+ --- Registro nro 2 --- 
+ Codigo de celular -> 10
+ Nombre ->  S10 
+ Descripcion ->  BBB 
+ Precio -> 3200
+ Marca ->  Samsung
+ Stock Actual -> 10
+ Stock Minimo -> 5
+ --- Registro nro 3 --- 
+ Codigo de celular -> 15
+ Nombre ->  Mt7 
+ Descripcion ->  CCC 
+ Precio -> 2800
+ Marca ->  Motorola
+ Stock Actual -> 5
+ Stock Minimo -> 7
+ --- Registro nro 4 --- 
+ Codigo de celular -> 18
+ Nombre ->  Lu1 
+ Descripcion ->  DDD 
+ Precio -> 1900
+ Marca ->  LG
+ Stock Actual -> 5
+ Stock Minimo -> 5
+ --- Registro nro 5 --- 
+ Codigo de celular -> 14
+ Nombre ->  G20 
+ Descripcion ->  EEE 
+ Precio -> 1200
+ Marca ->  Nokia
+ Stock Actual -> 5
+ Stock Minimo -> 8
+ --- Registro nro 6 --- 
+ Codigo de celular -> 0
+ Nombre -> 
+ Descripcion -> 
+ Precio -> 0
+ Marca -> 
+ Stock Actual -> 0
+ Stock Minimo -> 0
