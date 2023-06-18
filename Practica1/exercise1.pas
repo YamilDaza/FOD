@@ -17,9 +17,16 @@ begin
    rewrite(arcLogico); //Se crea el archivo
 
    write('- Enter a number: '); readln(nro);
-   while(nro <> 30000)do begin
+   while(nro <> 300)do begin
       write(arcLogico, nro);
       write('- Enter a number: '); readln(nro);
+   end;
+   close(arcLogico);
+   
+   reset(arcLogico);
+   while(not EOF(arcLogico))do begin
+      read(arcLogico, nro);
+      writeln(nro);
    end;
    close(arcLogico);
 
