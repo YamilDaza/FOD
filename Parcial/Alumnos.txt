@@ -1,0 +1,12 @@
+Nombre: Yamil
+Edad: 25
+Codigo: 25
+ 
+Nombre: Belen
+Edad: 24
+Codigo: 24
+ 
+Nombre: Lucas
+Edad: 14
+Codigo: 14
+ 
