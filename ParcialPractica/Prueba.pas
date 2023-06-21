@@ -83,6 +83,21 @@ type
       close(personLogico);
    end;
 
+   //Process 5
+   procedure changeFile(var personLogico: filePerson);
+   var
+      p:person;
+   begin
+      reset(personLogico);
+      while(not EOF(personLogico))do begin
+         read(personLogico, p);
+         p.job:= p.job + ' - 2023';
+         seek(personLogico, filepos(personLogico) - 1);
+         write(personLogico, p);
+      end;
+      close(personLogico);
+   end;
+
 var
    personLogico: filePerson;
    personFisico: string;
@@ -91,5 +106,6 @@ begin
    loadData(personLogico); //Process 2
    showData(personLogico); //Process 3
    addPersonData(personLogico); //Process 4
+   changeFile(personLogico); //Process 5
    showData(personLogico);
 end.
