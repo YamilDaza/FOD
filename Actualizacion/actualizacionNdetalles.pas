@@ -39,7 +39,7 @@ type
    begin
       write('Ingrese codigo del articulo: '); readln(v.codigo);
       if(v.codigo <> 0)then begin
-         write('Venta del dia: '); readln(v.stock);
+         write('Venta del dia: '); readln(v.venta);
          writeln();
       end
       else begin
@@ -50,7 +50,7 @@ type
    end;
 
    //Proceso 1
-   procedure cargarArchivos(var maestro: archivoArticulos; var d1, d2, d3: archivoVentaArticulos);
+   procedure cargarArchivos(var maestro: archivoArticulos; var det1, det2, det3: archivoVentaArticulos);
    var
       a:articulo;
       v:ventaArticulo;
@@ -74,35 +74,102 @@ type
 
       leerVenta(v);
       while(v.codigo <> 0)do begin
-         write(d1, v);
+         write(det1, v);
          leerVenta(v);
       end;
 
       leerVenta(v);
       while(v.codigo <> 0)do begin
-         write(d2, v);
+         write(det2, v);
          leerVenta(v);
       end;
 
       leerVenta(v);
       while(v.codigo <> 0)do begin
-         write(d3, v);
+         write(det3, v);
          leerVenta(v);
       end;
 
-      close(d1);
-      close(d2);
-      close(d3);
+      close(det1);
+      close(det2);
+      close(det3);
    end;
 
+   //Proceso leer dato
+   procedure leerDato(var archivo: archivoVentaArticulos; var dato: ventaArticulo);
+   begin
+      if(not EOF(archivo))then
+         read(archivo, dato)
+      else
+         dato.codigo:= VALOR_ALTO;
+   end;
 
-
+   //Proceso 2
+   procedure buscarElMinimo(var det1, det2, det3: archivoVentaArticulos; var minimo, regD1, regD2, regD3: ventaArticulo);
+   begin
+      if((regD1.codigo <= regD2.codigo) AND (regD1.codigo <= regD3.codigo))then begin
+         minimo:= regD1;
+         leerDato(det1, regD1);
+      end
+         else if(regD2.codigo <= regD3.codigo)then begin
+            minimo:= regD2;
+            leerDato(det2, regD2);
+         end
+         else begin
+            minimo:= regD3;
+            leerDato(det3, regD3);
+         end;
+   end;
 
 var
    regM: articulo;
-   regD: ventaArticulo;
+   regD1, regD2, regD3, minimo: ventaArticulo;
    maestro: archivoArticulos;
-   minimo, det1, det2, det3: archivoVentaArticulos;
+   det1, det2, det3: archivoVentaArticulos;
 begin
    cargarArchivos(maestro, det1, det2, det3); //Proceso 1
+   
+   //Abrimos los archivos ya cargados para realizar la actualizacion del maestro con los 3 detalles:
+   reset(maestro);
+   reset(det1);
+   reset(det2);
+   reset(det3);
+
+   //Leemos de cada detalle un 1er dato buscando el minimo
+   leerDato(det1, regD1);
+   leerDato(det2, regD2);
+   leerDato(det3, regD3);
+   read(maestro, regM);
+   buscarElMinimo(det1,det2,det3 , minimo, regD1, regD2, regD3); //Proceso 2
+
+   while(minimo.codigo <> VALOR_ALTO)do begin
+      while(minimo.codigo <> regM.codigo)do 
+         read(maestro, regM);
+
+      regM.stock:= regM.stock - minimo.venta;
+      seek(maestro, filepos(maestro) - 1);
+      write(maestro, regM);
+
+      if(not EOF(maestro))then
+         read(maestro, regM);
+
+      buscarElMinimo(det1, det2, det3, minimo, regD1, regD2, regD3); //Proceso 2  
+   end;
+
+   close(maestro);
+   close(det1);
+   close(det2);
+   close(det3);
+
+   reset(maestro);
+   while(not EOF(maestro))do begin
+      read(maestro, regM);
+      writeln('- Codigo del articulo: ',regM.codigo);
+      writeln('- Nombre: ',regM.nombre);
+      writeln('- Stock: ',regM.stock);
+      writeln();
+   end;
+
+   close(maestro);
+
 end.
